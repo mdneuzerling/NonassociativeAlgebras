@@ -1,0 +1,81 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+assign(max_megs,2000).
+
+formulas(assumptions).
+E1(x,y) | E2(x,y) | A(x,y) | B(x,y).
+A(x,y) -> x != y & -B(x,y).
+B(x,y) -> x != y & -A(x,y).
+E1(x,y) -> x = y & -E2(x,x).
+E2(x,y) -> x = y & -E1(x,x).
+(exists x E1(x,x)).
+(exists x E2(x,x)).
+(exists x exists y A(x,y)).
+(exists x exists y B(x,y)).
+A(x,y) -> A(y,x).
+B(x,y) -> B(y,x).
+(exists x exists y (E1(x,x) & A(x,y))).
+(exists x exists y (E1(x,x) & B(x,y))).
+A(x,y) -> -E2(x,x).
+(exists x exists y (E2(x,x) & B(x,y))).
+A(x,z) & A(z,y) -> -A(x,y).
+(exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))).
+A(x,z) & B(z,y) -> -B(x,y).
+B(x,z) & B(z,y) -> -B(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.04) seconds.
+% Length of proof is 38.
+% Level of proof is 9.
+% Maximum clause weight is 12.000.
+% Given clauses 116.
+
+3 E1(x,y) -> x = y & -E2(x,x) # label(non_clause).  [assumption].
+4 E2(x,y) -> x = y & -E1(x,x) # label(non_clause).  [assumption].
+6 (exists x E2(x,x)) # label(non_clause).  [assumption].
+10 B(x,y) -> B(y,x) # label(non_clause).  [assumption].
+13 A(x,y) -> -E2(x,x) # label(non_clause).  [assumption].
+15 A(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+16 (exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))) # label(non_clause).  [assumption].
+18 B(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+19 E1(x,y) | E2(x,y) | A(x,y) | B(x,y).  [assumption].
+23 -E1(x,y) | y = x.  [clausify(3)].
+24 -E1(x,y) | -E2(x,x).  [clausify(3)].
+25 -E2(x,y) | y = x.  [clausify(4)].
+26 -E2(x,y) | -E1(x,x).  [clausify(4)].
+28 E2(c2,c2).  [clausify(6)].
+32 -B(x,y) | B(y,x).  [clausify(10)].
+37 -A(x,y) | -E2(x,x).  [clausify(13)].
+40 -A(x,y) | -A(y,z) | -A(x,z).  [clausify(15)].
+41 B(c13,c15).  [clausify(16)].
+42 A(c15,c14).  [clausify(16)].
+43 A(c13,c14).  [clausify(16)].
+45 -B(x,y) | -B(y,z) | -B(x,z).  [clausify(18)].
+46 -A(x,x).  [factor(40,a,b),merge(b)].
+47 -B(x,x).  [factor(45,a,b),merge(b)].
+49 x = y | E1(y,x) | A(y,x) | B(y,x).  [resolve(25,a,19,b)].
+53 -E1(c2,x).  [resolve(28,a,24,b)].
+68 -A(c2,x).  [resolve(37,b,28,a)].
+69 -A(x,y) | E1(x,x).  [resolve(37,b,19,b),unit_del(c,46),unit_del(d,47)].
+82 B(c15,c13).  [resolve(41,a,32,a)].
+139 c2 = x | B(c2,x).  [resolve(49,b,53,a),flip(a),unit_del(b,68)].
+141 x = y | A(y,x) | B(y,x).  [resolve(49,b,23,a),merge(d)].
+168 E1(c13,c13).  [resolve(69,a,43,a)].
+183 -E2(c13,x).  [ur(26,b,168,a)].
+188 c2 = x | -B(c2,y) | -B(y,x).  [resolve(139,b,45,c)].
+218 c13 = c2 | -B(c2,c15).  [resolve(188,c,82,a),flip(a)].
+226 c13 = c2 | c15 = c2.  [resolve(218,b,141,c),unit_del(c,68)].
+231 c13 = c2.  [para(226(b,1),42(a,1)),unit_del(b,68)].
+234 -E2(c2,x).  [back_rewrite(183),rewrite([231(1)])].
+235 $F.  [resolve(234,a,28,a)].
+
+============================== end of proof ==========================

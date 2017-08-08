@@ -1,0 +1,97 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+assign(max_megs,2000).
+
+formulas(assumptions).
+E1(x,y) | E2(x,y) | A(x,y) | B(x,y).
+A(x,y) -> x != y & -B(x,y).
+B(x,y) -> x != y & -A(x,y).
+E1(x,y) -> x = y & -E2(x,x).
+E2(x,y) -> x = y & -E1(x,x).
+(exists x E1(x,x)).
+(exists x E2(x,x)).
+(exists x exists y A(x,y)).
+(exists x exists y B(x,y)).
+A(x,y) -> A(y,x).
+B(x,y) -> B(y,x).
+(exists x exists y (E1(x,x) & A(x,y))).
+(exists x exists y (E1(x,x) & B(x,y))).
+A(x,y) -> -E2(x,x).
+(exists x exists y (E2(x,x) & B(x,y))).
+(exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))).
+B(x,z) & A(z,y) -> -A(x,y).
+A(x,z) & B(z,y) -> -B(x,y).
+B(x,z) & B(z,y) -> -B(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.04 (+ 0.14) seconds.
+% Length of proof is 54.
+% Level of proof is 13.
+% Maximum clause weight is 12.000.
+% Given clauses 420.
+
+1 A(x,y) -> x != y & -B(x,y) # label(non_clause).  [assumption].
+3 E1(x,y) -> x = y & -E2(x,x) # label(non_clause).  [assumption].
+4 E2(x,y) -> x = y & -E1(x,x) # label(non_clause).  [assumption].
+9 A(x,y) -> A(y,x) # label(non_clause).  [assumption].
+10 B(x,y) -> B(y,x) # label(non_clause).  [assumption].
+13 A(x,y) -> -E2(x,x) # label(non_clause).  [assumption].
+14 (exists x exists y (E2(x,x) & B(x,y))) # label(non_clause).  [assumption].
+15 (exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))) # label(non_clause).  [assumption].
+17 A(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+18 B(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+19 E1(x,y) | E2(x,y) | A(x,y) | B(x,y).  [assumption].
+20 -A(x,y) | y != x.  [clausify(1)].
+23 -E1(x,y) | y = x.  [clausify(3)].
+25 -E2(x,y) | y = x.  [clausify(4)].
+26 -E2(x,y) | -E1(x,x).  [clausify(4)].
+31 -A(x,y) | A(y,x).  [clausify(9)].
+32 -B(x,y) | B(y,x).  [clausify(10)].
+37 -A(x,y) | -E2(x,x).  [clausify(13)].
+38 E2(c11,c11).  [clausify(14)].
+39 B(c11,c12).  [clausify(14)].
+40 A(c13,c15).  [clausify(15)].
+42 A(c13,c14).  [clausify(15)].
+44 -A(x,y) | -B(y,z) | -B(x,z).  [clausify(17)].
+45 -B(x,y) | -B(y,z) | -B(x,z).  [clausify(18)].
+48 -B(x,x).  [factor(45,a,b),merge(b)].
+49 -A(x,x).  [ur(20,b,xx)].
+51 x = y | E1(y,x) | A(y,x) | B(y,x).  [resolve(25,a,19,b)].
+52 -E1(x,x) | E1(x,y) | A(x,y) | B(x,y).  [resolve(26,a,19,b)].
+71 -A(x,y) | E1(x,x).  [resolve(37,b,19,b),unit_del(c,49),unit_del(d,48)].
+73 -A(c11,x).  [resolve(38,a,37,b)].
+76 B(c12,c11).  [resolve(39,a,32,a)].
+78 A(c15,c13).  [resolve(40,a,31,a)].
+103 -B(c11,x) | -B(x,c12).  [resolve(45,c,39,a)].
+132 -A(c12,x) | -B(x,c11).  [resolve(76,a,44,c)].
+133 -A(x,c12) | -B(x,c11).  [resolve(76,a,44,b)].
+140 x = y | A(y,x) | B(y,x).  [resolve(51,b,23,a),merge(d)].
+146 E1(c15,c15).  [resolve(71,a,78,a)].
+149 E1(c13,c13).  [resolve(71,a,42,a)].
+155 E1(c15,x) | A(c15,x) | B(c15,x).  [resolve(52,a,146,a)].
+158 -A(x,c11).  [ur(31,b,73,a)].
+161 E1(c13,x) | A(c13,x) | B(c13,x).  [resolve(149,a,52,a)].
+162 -E2(c13,x).  [ur(26,b,149,a)].
+192 A(c15,x) | B(c15,x) | c15 = x.  [resolve(155,a,23,a),flip(c)].
+195 A(c13,x) | B(c13,x) | c13 = x.  [resolve(161,a,23,a),flip(c)].
+259 -B(x,c12) | c11 = x.  [resolve(103,a,140,c),flip(b),unit_del(c,73)].
+261 c11 = x | c12 = x | A(x,c12).  [resolve(259,a,140,c)].
+401 c15 = c11 | -A(c12,c15).  [resolve(192,b,132,b),unit_del(a,158)].
+534 c13 = c11 | -A(c13,c12).  [resolve(195,b,133,b),unit_del(a,158)].
+779 c13 = c11 | c13 = c12.  [resolve(261,c,534,b),flip(a),flip(b),merge(c)].
+783 c13 = c11 | A(c12,c15).  [para(779(b,1),40(a,1))].
+1056 c13 = c11 | c15 = c11.  [resolve(783,b,401,b)].
+1506 c13 = c11.  [para(1056(b,1),40(a,2)),unit_del(b,158)].
+1517 -E2(c11,x).  [back_rewrite(162),rewrite([1506(1)])].
+1518 $F.  [resolve(1517,a,38,a)].
+
+============================== end of proof ==========================

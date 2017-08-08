@@ -1,0 +1,199 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+
+formulas(assumptions).
+x = y | A(x,y) | R(x,y) | Ri(x,y).
+A(x,y) -> x != y & -R(x,y) & -Ri(x,y).
+R(x,y) -> x != y & -A(x,y) & -Ri(x,y).
+Ri(x,y) -> x != y & -R(x,y) & -A(x,y).
+(exists x exists y A(x,y)).
+(exists x exists y R(x,y)).
+(exists x exists y Ri(x,y)).
+A(x,y) -> A(y,x).
+R(x,y) -> Ri(y,x).
+Ri(x,y) -> R(y,x).
+(exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))).
+R(x,z) & A(z,y) -> -A(x,y).
+A(x,z) & R(z,y) -> -R(x,y).
+(exists x exists y exists z (R(x,z) & R(z,y) & A(x,y))).
+R(x,z) & A(z,y) -> -R(x,y).
+(exists x exists y exists z (R(x,z) & R(z,y) & R(x,y))).
+R(x,z) & R(z,y) -> -Ri(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 18.68 (+ 0.39) seconds.
+% Length of proof is 159.
+% Level of proof is 50.
+% Maximum clause weight is 24.000.
+% Given clauses 3787.
+
+1 A(x,y) -> x != y & -R(x,y) & -Ri(x,y) # label(non_clause).  [assumption].
+7 A(x,y) -> A(y,x) # label(non_clause).  [assumption].
+8 R(x,y) -> Ri(y,x) # label(non_clause).  [assumption].
+9 Ri(x,y) -> R(y,x) # label(non_clause).  [assumption].
+10 (exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))) # label(non_clause).  [assumption].
+11 R(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+12 A(x,z) & R(z,y) -> -R(x,y) # label(non_clause).  [assumption].
+13 (exists x exists y exists z (R(x,z) & R(z,y) & A(x,y))) # label(non_clause).  [assumption].
+14 R(x,z) & A(z,y) -> -R(x,y) # label(non_clause).  [assumption].
+16 R(x,z) & R(z,y) -> -Ri(x,y) # label(non_clause).  [assumption].
+17 -A(x,y) | -Ri(x,y).  [clausify(1)].
+18 x = y | A(x,y) | R(x,y) | Ri(x,y).  [assumption].
+24 -R(x,y) | Ri(y,x).  [clausify(8)].
+25 -Ri(x,y) | R(y,x).  [clausify(9)].
+26 -R(x,y) | -R(y,z) | -Ri(x,z).  [clausify(16)].
+27 -A(x,y) | y != x.  [clausify(1)].
+28 -A(x,y) | -R(x,y).  [clausify(1)].
+32 -A(x,y) | A(y,x).  [clausify(7)].
+33 A(c7,c9).  [clausify(10)].
+34 A(c9,c8).  [clausify(10)].
+35 A(c7,c8).  [clausify(10)].
+36 -R(x,y) | -A(y,z) | -A(x,z).  [clausify(11)].
+37 -A(x,y) | -R(y,z) | -R(x,z).  [clausify(12)].
+38 R(c10,c12).  [clausify(13)].
+39 R(c12,c11).  [clausify(13)].
+40 A(c10,c11).  [clausify(13)].
+41 -R(x,y) | -A(y,z) | -R(x,z).  [clausify(14)].
+49 -R(x,y) | -A(y,x).  [resolve(24,b,17,b)].
+52 R(x,y) | y = x | A(y,x) | R(y,x).  [resolve(25,a,18,d)].
+56 -R(x,y) | -R(y,z) | -R(z,x).  [resolve(26,c,24,b)].
+67 A(c9,c7).  [resolve(33,a,32,a)].
+68 -R(c7,c9).  [resolve(33,a,28,a)].
+69 c9 != c7.  [resolve(33,a,27,a)].
+70 A(c8,c9).  [resolve(34,a,32,a)].
+71 -R(c9,c8).  [resolve(34,a,28,a)].
+72 c9 != c8.  [resolve(34,a,27,a),flip(a)].
+73 A(c8,c7).  [resolve(35,a,32,a)].
+74 -R(c7,c8).  [resolve(35,a,28,a)].
+75 c8 != c7.  [resolve(35,a,27,a)].
+76 -R(x,c7) | -A(x,c8).  [resolve(36,b,35,a)].
+77 -R(x,c9) | -A(x,c8).  [resolve(36,b,34,a)].
+81 -R(c9,x) | -A(x,c8).  [resolve(36,c,34,a)].
+84 -R(c9,c7).  [ur(36,b,35,a,c,34,a)].
+85 -R(c8,x) | -R(c7,x).  [resolve(37,a,35,a)].
+86 -R(c8,x) | -R(c9,x).  [resolve(37,a,34,a)].
+87 -R(c9,x) | -R(c7,x).  [resolve(37,a,33,a)].
+93 -R(c11,x) | -R(c10,x).  [resolve(40,a,37,a)].
+94 -R(c10,x) | -A(x,c11).  [resolve(40,a,36,c)].
+96 A(c11,c10).  [resolve(40,a,32,a)].
+101 -R(x,c7) | -R(x,c8).  [resolve(41,b,35,a)].
+102 -R(x,c9) | -R(x,c8).  [resolve(41,b,34,a)].
+103 -R(x,c7) | -R(x,c9).  [resolve(41,b,33,a)].
+116 -R(c8,c7).  [resolve(49,b,35,a)].
+117 -R(c8,c9).  [resolve(49,b,34,a)].
+120 -A(c11,c12).  [ur(49,a,39,a)].
+127 R(x,y) | y = x | R(y,x) | -R(z,y) | -R(z,x).  [resolve(52,c,41,b)].
+128 R(x,y) | y = x | R(y,x) | -R(x,z) | -R(y,z).  [resolve(52,c,37,a)].
+129 R(x,y) | y = x | R(y,x) | -R(y,z) | -A(z,x).  [resolve(52,c,36,c)].
+130 R(x,y) | y = x | R(y,x) | -R(z,y) | -A(z,x).  [resolve(52,c,36,b)].
+131 R(x,y) | y = x | R(y,x) | A(x,y).  [resolve(52,c,32,a)].
+150 -R(c11,x) | -R(x,c12).  [resolve(56,a,39,a)].
+157 -R(c8,x) | -A(x,c9).  [resolve(70,a,36,c)].
+159 -R(c8,x) | -A(x,c7).  [resolve(73,a,36,c)].
+166 -R(x,c9) | R(x,c8) | c8 = x | R(c8,x).  [resolve(77,b,131,d)].
+173 R(x,c11) | c11 = x | R(c11,x) | -R(c12,x).  [resolve(127,d,39,a)].
+177 -R(c9,x) | R(x,c8) | c8 = x | R(c8,x).  [resolve(81,b,131,d)].
+183 R(c10,x) | c10 = x | R(x,c10) | -R(x,c12).  [resolve(128,d,38,a),flip(b)].
+187 -R(c10,x) | R(x,c11) | c11 = x | R(c11,x).  [resolve(94,b,131,d)].
+189 R(x,y) | y = x | R(y,x) | -R(y,z) | R(z,x) | x = z | R(x,z).  [resolve(129,e,131,d)].
+190 R(c10,x) | c10 = x | R(x,c10) | -R(x,c11).  [resolve(129,e,96,a),flip(b)].
+191 R(c7,x) | c7 = x | R(x,c7) | -R(x,c8).  [resolve(129,e,73,a),flip(b)].
+192 R(c9,x) | c9 = x | R(x,c9) | -R(x,c8).  [resolve(129,e,70,a),flip(b)].
+193 R(c7,x) | c7 = x | R(x,c7) | -R(x,c9).  [resolve(129,e,67,a),flip(b)].
+197 R(c10,x) | c10 = x | R(x,c10) | -R(c11,x).  [resolve(130,e,96,a),flip(b)].
+199 R(c9,x) | c9 = x | R(x,c9) | -R(c8,x).  [resolve(130,e,70,a),flip(b)].
+200 R(c7,x) | c7 = x | R(x,c7) | -R(c9,x).  [resolve(130,e,67,a),flip(b)].
+207 R(x,c12) | c12 = x | R(c12,x) | R(c11,x) | c11 = x | R(x,c11).  [resolve(189,d,39,a),flip(e)].
+208 R(x,c10) | c10 = x | R(c10,x) | R(c12,x) | c12 = x | R(x,c12).  [resolve(189,d,38,a),flip(e)].
+785 R(x,c12) | c12 = x | R(c11,x) | c11 = x | R(x,c11).  [resolve(207,c,173,d),merge(f),merge(g),merge(h)].
+835 R(x,c10) | c10 = x | R(c10,x) | R(c12,x) | c12 = x.  [resolve(208,f,183,d),merge(f),merge(g),merge(h)].
+1039 c12 = x | R(c11,x) | c11 = x | R(x,c11) | R(c10,x) | c10 = x | R(x,c10).  [resolve(785,a,183,d)].
+1098 R(x,c12) | c12 = x | c11 = x | R(x,c11) | -R(c10,x).  [resolve(785,c,93,a)].
+13592 c12 = x | c11 = x | R(x,c11) | R(c10,x) | c10 = x | R(x,c10).  [resolve(1039,b,197,d),merge(g),merge(h),merge(i)].
+13697 c12 = x | c11 = x | R(c10,x) | c10 = x | R(x,c10).  [resolve(13592,c,190,d),merge(f),merge(g),merge(h)].
+13721 c12 = x | c11 = x | R(x,c11) | c10 = x | R(x,c10) | R(x,c12).  [resolve(13592,d,1098,e),merge(g),merge(h),merge(i)].
+13759 c12 = x | c11 = x | R(x,c11) | c10 = x | R(x,c10) | R(c11,x).  [resolve(13592,d,187,a),merge(f),merge(g)].
+13877 c12 = c9 | c11 = c9 | c10 = c9 | R(c9,c10) | R(c7,c10) | c10 = c7 | R(c10,c7).  [resolve(13697,c,193,d),flip(f)].
+13878 c12 = c8 | c11 = c8 | c10 = c8 | R(c8,c10) | R(c9,c10) | c10 = c9 | R(c10,c9).  [resolve(13697,c,192,d),flip(f)].
+13879 c12 = c8 | c11 = c8 | c10 = c8 | R(c8,c10) | R(c7,c10) | c10 = c7 | R(c10,c7).  [resolve(13697,c,191,d),flip(f)].
+13886 c12 = c9 | c11 = c9 | c10 = c9 | R(c9,c10) | R(c10,c8) | c10 = c8 | R(c8,c10).  [resolve(13697,c,166,a),flip(f)].
+13901 c12 = c9 | c11 = c9 | c10 = c9 | R(c9,c10) | -R(c10,c7).  [resolve(13697,c,103,b)].
+13902 c12 = c9 | c11 = c9 | c10 = c9 | R(c9,c10) | -R(c10,c8).  [resolve(13697,c,102,a)].
+13903 c12 = c8 | c11 = c8 | c10 = c8 | R(c8,c10) | -R(c10,c7).  [resolve(13697,c,101,b)].
+14205 c12 = x | c11 = x | R(x,c11) | c10 = x | R(x,c10) | -R(c11,x).  [resolve(13721,f,150,b)].
+15078 c12 = x | c11 = x | R(x,c11) | c10 = x | R(x,c10).  [resolve(14205,f,13759,f),merge(f),merge(g),merge(h),merge(i),merge(j)].
+26514 c12 = c9 | c11 = c9 | c10 = c9 | R(c9,c10) | R(c7,c10) | c10 = c7.  [resolve(13877,g,13901,e),merge(g),merge(h),merge(i),merge(j)].
+26532 c12 = c9 | c11 = c9 | c10 = c9 | R(c7,c10) | c10 = c7 | R(c10,c7).  [resolve(26514,d,200,d),flip(g),merge(f),merge(g)].
+26537 c12 = c9 | c11 = c9 | c10 = c9 | R(c7,c10) | c10 = c7 | -R(c8,c10).  [resolve(26514,d,86,b)].
+26566 c12 = c8 | c11 = c8 | c10 = c8 | R(c8,c10) | R(c9,c10) | c10 = c9 | -R(c10,c8).  [resolve(13878,g,102,a)].
+26571 c12 = c8 | c11 = c8 | c10 = c8 | R(c8,c10) | R(c7,c10) | c10 = c7.  [resolve(13879,g,13903,e),merge(g),merge(h),merge(i),merge(j)].
+26650 c12 = c9 | c11 = c9 | c10 = c9 | R(c9,c10) | c10 = c8 | R(c8,c10).  [resolve(13886,e,13902,e),merge(g),merge(h),merge(i),merge(j)].
+26669 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | R(c8,c10) | R(c10,c8).  [resolve(26650,d,177,a),flip(g),merge(g),merge(h)].
+26672 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | R(c8,c10) | -R(c7,c10).  [resolve(26650,d,87,a)].
+26692 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | R(c8,c10) | -R(c10,c7).  [resolve(26669,f,101,b)].
+26698 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | R(c8,c10) | R(c7,c10) | c10 = c7.  [resolve(26692,f,26532,f),merge(f),merge(g),merge(h)].
+31500 c12 = c8 | c11 = c8 | c10 = c8 | R(c8,c10) | R(c9,c10) | c10 = c9.  [resolve(26566,g,13697,c),merge(g),merge(h),merge(i),merge(j)].
+31580 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | R(c7,c10) | c10 = c7.  [resolve(26698,e,26537,f),merge(g),merge(h),merge(i),merge(j),merge(k)].
+31586 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | R(c8,c10).  [resolve(31580,e,26672,f),merge(f),merge(g),merge(h),merge(i)].
+31608 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | -R(c7,c10).  [resolve(31586,f,85,a)].
+31625 c12 = c9 | c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7.  [resolve(31608,f,31580,e),merge(f),merge(g),merge(h),merge(i),merge(j)].
+31626 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | R(c10,c9).  [para(31625(a,1),38(a,2))].
+31717 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | R(c7,c10) | R(c10,c7).  [resolve(31626,e,193,d),flip(f),merge(f)].
+31718 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | R(c10,c8) | R(c8,c10).  [resolve(31626,e,166,a),flip(f),merge(f)].
+31720 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | -R(c10,c7).  [resolve(31626,e,103,b)].
+31721 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | -R(c10,c8).  [resolve(31626,e,102,a)].
+31741 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | R(c7,c10).  [resolve(31717,f,31720,e),merge(f),merge(g),merge(h),merge(i)].
+31763 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | R(c8,c10).  [resolve(31718,e,31721,e),merge(f),merge(g),merge(h),merge(i)].
+31780 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7 | -R(c7,c10).  [resolve(31763,e,85,a)].
+31784 c11 = c9 | c10 = c9 | c10 = c8 | c10 = c7.  [resolve(31780,e,31741,e),merge(e),merge(f),merge(g),merge(h)].
+31785 c10 = c9 | c10 = c8 | c10 = c7 | R(c12,c9).  [para(31784(a,1),39(a,2))].
+31786 c10 = c9 | c10 = c8 | c10 = c7 | A(c10,c9).  [para(31784(a,1),40(a,2))].
+31849 c10 = c9 | c10 = c8 | c10 = c7 | c12 = x | c11 = x | R(x,c9) | c10 = x | R(x,c10).  [para(31784(a,1),15078(c,2))].
+31943 c10 = c9 | c10 = c8 | c10 = c7 | c12 = c8 | c11 = c8 | R(c8,c10).  [factor(31849,b,g),unit_del(f,117)].
+32007 c10 = c9 | c10 = c8 | c10 = c7 | -R(c8,c10).  [resolve(31786,d,157,b)].
+32077 c10 = c9 | c10 = c8 | c10 = c7 | c12 = c8 | c11 = c8.  [resolve(31943,f,32007,d),merge(f),merge(g),merge(h)].
+32146 c10 = c9 | c10 = c8 | c10 = c7 | c11 = c8.  [para(32077(d,1),31785(d,1)),merge(e),merge(f),merge(g),unit_del(e,117)].
+32295 c10 = c9 | c10 = c8 | c10 = c7.  [para(32146(d,1),31784(a,1)),flip(d),merge(e),merge(f),merge(g),unit_del(d,72)].
+32296 c10 = c8 | c10 = c7 | R(c9,c12).  [para(32295(a,1),38(a,1))].
+32325 c10 = c8 | c10 = c7 | R(x,c9) | c10 = x | R(c10,x) | R(c12,x) | c12 = x.  [para(32295(a,1),835(a,2))].
+32470 c10 = c8 | c10 = c7 | c12 = c8 | c11 = c8 | R(c7,c10).  [para(32295(a,1),26571(d,2)),merge(e),merge(h),unit_del(e,117)].
+32589 c10 = c8 | c10 = c7 | R(c10,c7) | R(c12,c7) | c12 = c7.  [factor(32325,b,d),unit_del(c,68)].
+32838 c10 = c8 | c10 = c7 | c12 = c8 | c11 = c8.  [para(32295(a,1),32470(e,2)),merge(c),merge(d),unit_del(e,68)].
+33015 c10 = c8 | c10 = c7 | c11 = c8.  [para(32838(c,1),32296(c,2)),merge(d),merge(e),unit_del(d,71)].
+33016 c10 = c8 | c10 = c7 | R(c12,c8).  [para(33015(c,1),39(a,2))].
+33017 c10 = c8 | c10 = c7 | A(c10,c8).  [para(33015(c,1),40(a,2))].
+33358 c10 = c8 | c10 = c7 | -R(c12,c7).  [resolve(33016,c,101,b)].
+33374 c10 = c8 | c10 = c7 | -R(c10,c7).  [resolve(33017,c,76,b)].
+33530 c10 = c8 | c10 = c7 | R(c10,c7) | c12 = c7.  [resolve(32589,d,33358,c),merge(e),merge(f)].
+33531 c10 = c8 | c10 = c7 | c12 = c7.  [resolve(33530,c,33374,c),merge(d),merge(e)].
+33895 c10 = c8 | c10 = c7.  [para(33531(c,1),32296(c,2)),merge(c),merge(d),unit_del(c,84)].
+33896 c10 = c7 | R(c8,c12).  [para(33895(a,1),38(a,1))].
+33968 c10 = c7 | c12 = x | c11 = x | R(c8,x) | c10 = x | R(x,c10).  [para(33895(a,1),13697(c,1))].
+34199 c10 = c7 | c12 = c7 | c11 = c7 | R(c7,c10).  [factor(33968,a,e),unit_del(d,116)].
+34256 c10 = c7 | R(c9,c12) | c12 = c9 | R(c12,c9).  [resolve(33896,b,199,d),flip(c)].
+34528 c10 = c7 | c12 = c7 | c11 = c7.  [para(33895(a,1),34199(d,2)),merge(b),unit_del(d,74)].
+34892 c10 = c7 | c11 = c7.  [para(34528(b,1),33896(b,2)),merge(c),unit_del(c,116)].
+34893 c10 = c7 | R(c12,c7).  [para(34892(b,1),39(a,2))].
+35464 c10 = c7 | R(c9,c12) | c12 = c9 | -R(c12,c7).  [resolve(34256,d,103,b)].
+35468 c10 = c7 | R(c9,c12) | c12 = c9.  [resolve(35464,d,34893,b),merge(d)].
+35531 c10 = c7 | c12 = c9 | -R(c8,c12).  [resolve(35468,b,86,b)].
+35536 c10 = c7 | c12 = c9.  [resolve(35531,c,33896,b),merge(c)].
+35914 c10 = c7.  [para(35536(b,1),33896(b,2)),merge(b),unit_del(b,117)].
+35947 c12 = c8 | c11 = c8.  [back_rewrite(31500),rewrite([35914(7),35914(11),35914(14),35914(16)]),flip(c),flip(f),unit_del(c,75),unit_del(d,116),unit_del(e,84),unit_del(f,69)].
+37752 c12 = c9 | c11 = c9.  [back_rewrite(26669),rewrite([35914(7),35914(10),35914(14),35914(16)]),flip(c),flip(d),unit_del(c,69),unit_del(d,75),unit_del(e,116),unit_del(f,74)].
+41965 A(c11,c7).  [back_rewrite(96),rewrite([35914(2)])].
+42078 -R(c8,c11).  [resolve(41965,a,159,b)].
+42123 c11 = c8.  [para(35947(a,1),39(a,1)),unit_del(b,42078)].
+42734 c12 = c9.  [back_rewrite(37752),rewrite([42123(4)]),flip(b),unit_del(b,72)].
+44160 $F.  [back_rewrite(120),rewrite([42123(1),42734(2)]),unit_del(a,70)].
+
+============================== end of proof ==========================

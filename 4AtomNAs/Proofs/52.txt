@@ -1,0 +1,62 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+assign(max_megs,2000).
+
+formulas(assumptions).
+E1(x,y) | E2(x,y) | R(x,y) | Ri(x,y).
+R(x,y) -> x != y & -Ri(x,y).
+Ri(x,y) -> x != y & -R(x,y).
+E1(x,y) -> x = y & -E2(x,x).
+E2(x,y) -> x = y & -E1(x,x).
+(exists x E1(x,x)).
+(exists x E2(x,x)).
+(exists x exists y R(x,y)).
+(exists x exists y Ri(x,y)).
+R(x,y) -> Ri(y,x).
+Ri(x,y) -> R(y,x).
+R(x,y) -> -E1(x,x).
+(exists x exists y (E1(x,x) & Ri(x,y))).
+(exists x exists y (E2(x,x) & R(x,y))).
+Ri(x,y) -> -E2(x,x).
+(exists x exists y exists z (R(x,z) & R(z,y) & R(x,y))).
+R(x,z) & R(z,y) -> -Ri(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.04) seconds.
+% Length of proof is 21.
+% Level of proof is 5.
+% Maximum clause weight is 12.000.
+% Given clauses 39.
+
+1 R(x,y) -> x != y & -Ri(x,y) # label(non_clause).  [assumption].
+9 R(x,y) -> Ri(y,x) # label(non_clause).  [assumption].
+10 Ri(x,y) -> R(y,x) # label(non_clause).  [assumption].
+11 R(x,y) -> -E1(x,x) # label(non_clause).  [assumption].
+14 Ri(x,y) -> -E2(x,x) # label(non_clause).  [assumption].
+15 (exists x exists y exists z (R(x,z) & R(z,y) & R(x,y))) # label(non_clause).  [assumption].
+17 -R(x,y) | -Ri(x,y).  [clausify(1)].
+18 E1(x,y) | E2(x,y) | R(x,y) | Ri(x,y).  [assumption].
+22 -R(x,y) | Ri(y,x).  [clausify(9)].
+23 -Ri(x,y) | R(y,x).  [clausify(10)].
+25 -Ri(x,y) | -E2(x,x).  [clausify(14)].
+35 -R(x,y) | -E1(x,x).  [clausify(11)].
+39 R(c11,c13).  [clausify(15)].
+40 R(c13,c12).  [clausify(15)].
+45 -R(x,y) | -R(y,x).  [resolve(22,b,17,b)].
+47 R(x,y) | E1(y,x) | E2(y,x) | R(y,x).  [resolve(23,a,18,d)].
+54 -E2(x,x) | -R(y,x).  [resolve(25,a,22,b)].
+60 -R(x,x).  [factor(45,a,b)].
+87 E2(x,x) | -R(x,y).  [resolve(47,b,35,b),merge(c),unit_del(a,60)].
+101 -E2(c13,c13).  [ur(54,b,39,a)].
+131 $F.  [resolve(87,b,40,a),unit_del(a,101)].
+
+============================== end of proof ==========================

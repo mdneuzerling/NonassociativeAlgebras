@@ -1,0 +1,118 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+
+formulas(assumptions).
+x = y | A(x,y) | B(x,y) | C(x,y).
+A(x,y) -> x != y & -B(x,y) & -C(x,y).
+B(x,y) -> x != y & -A(x,y) & -C(x,y).
+C(x,y) -> x != y & -B(x,y) & -A(x,y).
+(exists x exists y A(x,y)).
+(exists x exists y B(x,y)).
+(exists x exists y C(x,y)).
+A(x,y) -> A(y,x).
+B(x,y) -> B(y,x).
+C(x,y) -> C(y,x).
+A(x,z) & A(z,y) -> -A(x,y).
+(exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))).
+C(x,z) & A(z,y) -> -A(x,y).
+(exists x exists y exists z (A(x,z) & B(z,y) & B(x,y))).
+A(x,z) & B(z,y) -> -C(x,y).
+A(x,z) & C(z,y) -> -C(x,y).
+B(x,z) & B(z,y) -> -B(x,y).
+C(x,z) & B(z,y) -> -B(x,y).
+B(x,z) & C(z,y) -> -C(x,y).
+C(x,z) & C(z,y) -> -C(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.28 (+ 0.07) seconds.
+% Length of proof is 75.
+% Level of proof is 24.
+% Maximum clause weight is 18.000.
+% Given clauses 554.
+
+1 A(x,y) -> x != y & -B(x,y) & -C(x,y) # label(non_clause).  [assumption].
+4 (exists x exists y A(x,y)) # label(non_clause).  [assumption].
+6 (exists x exists y C(x,y)) # label(non_clause).  [assumption].
+7 A(x,y) -> A(y,x) # label(non_clause).  [assumption].
+8 B(x,y) -> B(y,x) # label(non_clause).  [assumption].
+9 C(x,y) -> C(y,x) # label(non_clause).  [assumption].
+10 A(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+12 C(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+14 A(x,z) & B(z,y) -> -C(x,y) # label(non_clause).  [assumption].
+15 A(x,z) & C(z,y) -> -C(x,y) # label(non_clause).  [assumption].
+17 C(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+18 B(x,z) & C(z,y) -> -C(x,y) # label(non_clause).  [assumption].
+19 C(x,z) & C(z,y) -> -C(x,y) # label(non_clause).  [assumption].
+20 x = y | A(x,y) | B(x,y) | C(x,y).  [assumption].
+21 -A(x,y) | y != x.  [clausify(1)].
+23 -A(x,y) | -C(x,y).  [clausify(1)].
+27 A(c1,c2).  [clausify(4)].
+29 C(c5,c6).  [clausify(6)].
+30 -A(x,y) | A(y,x).  [clausify(7)].
+31 -B(x,y) | B(y,x).  [clausify(8)].
+32 -C(x,y) | C(y,x).  [clausify(9)].
+33 -A(x,y) | -A(y,z) | -A(x,z).  [clausify(10)].
+37 -C(x,y) | -A(y,z) | -A(x,z).  [clausify(12)].
+41 -A(x,y) | -B(y,z) | -C(x,z).  [clausify(14)].
+42 -A(x,y) | -C(y,z) | -C(x,z).  [clausify(15)].
+44 -C(x,y) | -B(y,z) | -B(x,z).  [clausify(17)].
+45 -B(x,y) | -C(y,z) | -C(x,z).  [clausify(18)].
+46 -C(x,y) | -C(y,z) | -C(x,z).  [clausify(19)].
+47 -A(x,x).  [factor(33,a,b),merge(b)].
+53 c2 != c1.  [resolve(27,a,21,a)].
+54 -C(c1,c2).  [ur(23,a,27,a)].
+62 A(c2,c1).  [resolve(30,a,27,a)].
+64 C(c6,c5).  [resolve(32,a,29,a)].
+65 C(x,y) | y = x | A(y,x) | B(y,x).  [resolve(32,a,20,d)].
+88 -A(c6,x) | -A(c5,x).  [resolve(37,a,29,a)].
+106 -A(c5,x) | -B(x,c6).  [resolve(41,c,29,a)].
+111 -A(x,y) | -C(y,z) | x = z | A(x,z) | B(x,z).  [resolve(42,c,20,d)].
+125 -B(c6,x) | -B(c5,x).  [resolve(44,a,29,a)].
+128 -B(x,c5) | -C(x,c6).  [resolve(45,b,29,a)].
+131 -B(x,y) | -C(y,z) | x = z | A(x,z) | B(x,z).  [resolve(45,c,20,d)].
+132 -C(c6,x) | -C(c5,x).  [resolve(46,a,29,a)].
+138 -C(c2,c1).  [ur(32,b,54,a)].
+149 -A(c6,x) | -B(x,c5).  [resolve(64,a,41,c)].
+151 -A(c6,c5).  [resolve(64,a,23,b)].
+201 -A(x,c6) | c5 = x | A(x,c5) | B(x,c5).  [resolve(111,b,64,a),flip(b)].
+202 -A(x,c5) | c6 = x | A(x,c6) | B(x,c6).  [resolve(111,b,29,a),flip(b)].
+222 -B(x,c5) | c6 = x | A(x,c6) | B(x,c6).  [resolve(128,b,20,d),flip(b)].
+225 -C(c5,x) | c6 = x | A(x,c6) | B(x,c6).  [resolve(132,a,65,a),flip(b)].
+236 c6 = x | A(x,c6) | B(x,c6) | c5 = x | A(x,c5) | B(x,c5).  [resolve(225,a,65,a),flip(d)].
+241 -B(x,c6) | c5 = x | A(x,c5) | B(x,c5).  [resolve(131,b,64,a),flip(b)].
+273 c6 = x | A(x,c6) | c5 = x | A(x,c5) | B(x,c5).  [resolve(236,c,241,a),merge(f),merge(g),merge(h)].
+283 c6 = x | A(x,c6) | c5 = x | A(x,c5) | B(x,c6).  [resolve(273,e,222,a),merge(e),merge(f)].
+304 c6 = x | A(x,c6) | c5 = x | A(x,c5) | B(c5,x).  [resolve(273,e,31,a)].
+324 c6 = x | A(x,c6) | c5 = x | A(x,c5) | B(c6,x).  [resolve(283,e,31,a)].
+499 c6 = x | A(x,c6) | c5 = x | A(x,c5) | -B(c5,x).  [resolve(324,e,125,a)].
+696 c6 = x | A(x,c6) | c5 = x | A(x,c5).  [resolve(499,e,304,e),merge(e),merge(f),merge(g),merge(h)].
+698 c6 = x | c5 = x | A(x,c5) | B(x,c5).  [resolve(696,b,201,a),merge(d),merge(e)].
+719 c6 = x | c5 = x | A(x,c5) | A(c6,x).  [resolve(696,b,30,a)].
+733 c6 = x | c5 = x | A(x,c5) | -A(c6,x).  [resolve(698,d,149,b)].
+1024 c6 = x | c5 = x | A(x,c5).  [resolve(733,d,719,d),merge(d),merge(e),merge(f)].
+1026 c6 = x | c5 = x | A(x,c6) | B(x,c6).  [resolve(1024,c,202,a),merge(c)].
+1047 c6 = x | c5 = x | A(c5,x).  [resolve(1024,c,30,a)].
+1552 c6 = x | c5 = x | A(x,c6) | -A(c5,x).  [resolve(1026,d,106,b)].
+2113 c6 = x | c5 = x | A(x,c6).  [resolve(1552,d,1047,c),merge(d),merge(e)].
+2135 c6 = x | c5 = x | A(c6,x).  [resolve(2113,c,30,a)].
+2293 c6 = x | c5 = x | -A(c5,x).  [resolve(2135,c,88,a)].
+2334 c6 = x | c5 = x.  [resolve(2293,c,1047,c),merge(c),merge(d)].
+2335 c5 = c1 | A(c6,c2).  [para(2334(a,2),27(a,1))].
+2339 c5 = x | C(c5,x).  [para(2334(a,1),29(a,2))].
+2360 c5 = c2 | A(c6,c1).  [para(2334(a,2),62(a,1))].
+2656 c5 = c2 | c5 = c1.  [para(2334(a,2),2335(b,2)),unit_del(c,47)].
+3802 c5 = c1 | c5 = x | C(c2,x).  [para(2656(a,1),2339(b,1))].
+3807 c5 = c1.  [factor(3802,a,b),unit_del(b,138)].
+4371 A(c6,c1).  [back_rewrite(2360),rewrite([3807(1)]),flip(a),unit_del(a,53)].
+4424 $F.  [back_rewrite(151),rewrite([3807(2)]),unit_del(a,4371)].
+
+============================== end of proof ==========================

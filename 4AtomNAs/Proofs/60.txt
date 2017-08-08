@@ -1,0 +1,63 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+assign(max_megs,2000).
+
+formulas(assumptions).
+E1(x,y) | E2(x,y) | R(x,y) | Ri(x,y).
+R(x,y) -> x != y & -Ri(x,y).
+Ri(x,y) -> x != y & -R(x,y).
+E1(x,y) -> x = y & -E2(x,x).
+E2(x,y) -> x = y & -E1(x,x).
+(exists x E1(x,x)).
+(exists x E2(x,x)).
+(exists x exists y R(x,y)).
+(exists x exists y Ri(x,y)).
+R(x,y) -> Ri(y,x).
+Ri(x,y) -> R(y,x).
+R(x,y) -> -E1(x,x).
+(exists x exists y (E1(x,x) & Ri(x,y))).
+(exists x exists y (E2(x,x) & R(x,y))).
+Ri(x,y) -> -E2(x,x).
+(exists x exists y exists z (R(x,z) & R(z,y) & R(x,y))).
+(exists x exists y exists z (R(x,z) & R(z,y) & Ri(x,y))).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.02) seconds.
+% Length of proof is 22.
+% Level of proof is 5.
+% Maximum clause weight is 12.000.
+% Given clauses 52.
+
+1 R(x,y) -> x != y & -Ri(x,y) # label(non_clause).  [assumption].
+9 R(x,y) -> Ri(y,x) # label(non_clause).  [assumption].
+10 Ri(x,y) -> R(y,x) # label(non_clause).  [assumption].
+11 R(x,y) -> -E1(x,x) # label(non_clause).  [assumption].
+14 Ri(x,y) -> -E2(x,x) # label(non_clause).  [assumption].
+16 (exists x exists y exists z (R(x,z) & R(z,y) & Ri(x,y))) # label(non_clause).  [assumption].
+18 E1(x,y) | E2(x,y) | R(x,y) | Ri(x,y).  [assumption].
+19 -R(x,y) | -Ri(x,y).  [clausify(1)].
+22 -R(x,y) | Ri(y,x).  [clausify(9)].
+23 -Ri(x,y) | R(y,x).  [clausify(10)].
+24 -R(x,y) | -E1(x,x).  [clausify(11)].
+30 R(c16,c15).  [clausify(16)].
+42 -Ri(x,y) | -E2(x,x).  [clausify(14)].
+43 Ri(c14,c15).  [clausify(16)].
+47 Ri(x,y) | E1(y,x) | E2(y,x) | Ri(y,x).  [resolve(22,a,18,c)].
+50 -Ri(x,y) | -Ri(y,x).  [resolve(23,b,19,a)].
+53 -E1(x,x) | -Ri(y,x).  [resolve(24,a,23,b)].
+77 Ri(c15,c16).  [resolve(30,a,22,a)].
+80 -Ri(x,x).  [factor(50,a,b)].
+98 E1(x,x) | -Ri(x,y).  [resolve(47,c,42,b),merge(c),unit_del(a,80)].
+110 -E1(c15,c15).  [ur(53,b,43,a)].
+148 $F.  [resolve(98,b,77,a),unit_del(a,110)].
+
+============================== end of proof ==========================

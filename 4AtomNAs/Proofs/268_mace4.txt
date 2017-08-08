@@ -1,0 +1,513 @@
+============================== Mace4 =================================
+Mace4 (64) version 2009-11A, November 2009.
+Process 23712 was started by murray on murray-OptiPlex-9010,
+Wed Jul 15 08:26:11 2015
+The command was "mace4 -f qreps.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file qreps.in
+
+assign(end_size,30).
+
+formulas(assumptions).
+x = y | A(x,y) | B(x,y) | C(x,y).
+A(x,y) -> x != y & -B(x,y) & -C(x,y).
+B(x,y) -> x != y & -A(x,y) & -C(x,y).
+C(x,y) -> x != y & -B(x,y) & -A(x,y).
+A(x,y) -> A(y,x).
+B(x,y) -> B(y,x).
+C(x,y) -> C(y,x).
+(exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))).
+(exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))).
+C(x,z) & A(z,y) -> -A(x,y).
+A(x,z) & B(z,y) -> -B(x,y).
+A(x,z) & B(z,y) -> -C(x,y).
+(exists x exists y exists z (A(x,z) & C(z,y) & C(x,y))).
+(exists x exists y exists z (B(x,z) & B(z,y) & B(x,y))).
+(exists x exists y exists z (C(x,z) & B(z,y) & B(x,y))).
+B(x,z) & C(z,y) -> -C(x,y).
+(exists x exists y exists z (C(x,z) & C(z,y) & C(x,y))).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 A(x,y) -> x != y & -B(x,y) & -C(x,y) # label(non_clause).  [assumption].
+2 B(x,y) -> x != y & -A(x,y) & -C(x,y) # label(non_clause).  [assumption].
+3 C(x,y) -> x != y & -B(x,y) & -A(x,y) # label(non_clause).  [assumption].
+4 A(x,y) -> A(y,x) # label(non_clause).  [assumption].
+5 B(x,y) -> B(y,x) # label(non_clause).  [assumption].
+6 C(x,y) -> C(y,x) # label(non_clause).  [assumption].
+7 (exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))) # label(non_clause).  [assumption].
+8 (exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))) # label(non_clause).  [assumption].
+9 C(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+10 A(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+11 A(x,z) & B(z,y) -> -C(x,y) # label(non_clause).  [assumption].
+12 (exists x exists y exists z (A(x,z) & C(z,y) & C(x,y))) # label(non_clause).  [assumption].
+13 (exists x exists y exists z (B(x,z) & B(z,y) & B(x,y))) # label(non_clause).  [assumption].
+14 (exists x exists y exists z (C(x,z) & B(z,y) & B(x,y))) # label(non_clause).  [assumption].
+15 B(x,z) & C(z,y) -> -C(x,y) # label(non_clause).  [assumption].
+16 (exists x exists y exists z (C(x,z) & C(z,y) & C(x,y))) # label(non_clause).  [assumption].
+
+============================== end of process non-clausal formulas ===
+
+============================== CLAUSES FOR SEARCH ====================
+
+formulas(mace4_clauses).
+x = y | A(x,y) | B(x,y) | C(x,y).
+-A(x,y) | y != x.
+-A(x,y) | -B(x,y).
+-A(x,y) | -C(x,y).
+-B(x,y) | y != x.
+-B(x,y) | -A(x,y).
+-B(x,y) | -C(x,y).
+-C(x,y) | y != x.
+-C(x,y) | -B(x,y).
+-C(x,y) | -A(x,y).
+-A(x,y) | A(y,x).
+-B(x,y) | B(y,x).
+-C(x,y) | C(y,x).
+A(c1,c3).
+A(c3,c2).
+A(c1,c2).
+B(c4,c6).
+A(c6,c5).
+A(c4,c5).
+-C(x,y) | -A(y,z) | -A(x,z).
+-A(x,y) | -B(y,z) | -B(x,z).
+-A(x,y) | -B(y,z) | -C(x,z).
+A(c7,c9).
+C(c9,c8).
+C(c7,c8).
+B(c10,c12).
+B(c12,c11).
+B(c10,c11).
+C(c13,c15).
+B(c15,c14).
+B(c13,c14).
+-B(x,y) | -C(y,z) | -C(x,z).
+C(c16,c18).
+C(c18,c17).
+C(c16,c17).
+end_of_list.
+
+============================== end of clauses for search =============
+
+% There are no natural numbers in the input.
+
+============================== DOMAIN SIZE 2 =========================
+
+============================== STATISTICS ============================
+
+For domain size 2.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=102, kept=44.
+Selections=1, assignments=1, propagations=14, current_models=0.
+Rewrite_terms=5, rewrite_bools=37, indexes=1.
+Rules_from_neg_clauses=2, cross_offs=2.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 3 =========================
+
+============================== STATISTICS ============================
+
+For domain size 3.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=243, kept=111.
+Selections=3, assignments=6, propagations=31, current_models=0.
+Rewrite_terms=13, rewrite_bools=133, indexes=3.
+Rules_from_neg_clauses=4, cross_offs=9.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 4 =========================
+
+============================== STATISTICS ============================
+
+For domain size 4.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.01 seconds).
+Ground clauses: seen=482, kept=246.
+Selections=23, assignments=86, propagations=213, current_models=0.
+Rewrite_terms=166, rewrite_bools=1058, indexes=15.
+Rules_from_neg_clauses=51, cross_offs=239.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 5 =========================
+
+============================== STATISTICS ============================
+
+For domain size 5.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.01 seconds).
+Ground clauses: seen=843, kept=473.
+Selections=48, assignments=227, propagations=1536, current_models=0.
+Rewrite_terms=525, rewrite_bools=10301, indexes=130.
+Rules_from_neg_clauses=141, cross_offs=747.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 6 =========================
+
+============================== STATISTICS ============================
+
+For domain size 6.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.02 seconds).
+Ground clauses: seen=1350, kept=816.
+Selections=124, assignments=657, propagations=7332, current_models=0.
+Rewrite_terms=1256, rewrite_bools=62275, indexes=450.
+Rules_from_neg_clauses=144, cross_offs=1175.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 7 =========================
+
+============================== STATISTICS ============================
+
+For domain size 7.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.05 seconds).
+Ground clauses: seen=2027, kept=1299.
+Selections=365, assignments=2327, propagations=29869, current_models=0.
+Rewrite_terms=4211, rewrite_bools=255438, indexes=1521.
+Rules_from_neg_clauses=477, cross_offs=3319.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 8 =========================
+
+============================== STATISTICS ============================
+
+For domain size 8.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.30 seconds).
+Ground clauses: seen=2898, kept=1946.
+Selections=2058, assignments=16067, propagations=311775, current_models=0.
+Rewrite_terms=30466, rewrite_bools=2567988, indexes=9982.
+Rules_from_neg_clauses=2574, cross_offs=29324.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 9 =========================
+
+============================== STATISTICS ============================
+
+For domain size 9.
+
+Current CPU time: 0.00 seconds (total CPU time: 1.78 seconds).
+Ground clauses: seen=3987, kept=2781.
+Selections=8028, assignments=71490, propagations=1609728, current_models=0.
+Rewrite_terms=137191, rewrite_bools=15229096, indexes=43242.
+Rules_from_neg_clauses=8034, cross_offs=135666.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 10 ========================
+
+============================== STATISTICS ============================
+
+For domain size 10.
+
+Current CPU time: 0.00 seconds (total CPU time: 5.52 seconds).
+Ground clauses: seen=5318, kept=3828.
+Selections=15271, assignments=149890, propagations=3616072, current_models=0.
+Rewrite_terms=277350, rewrite_bools=42915541, indexes=96271.
+Rules_from_neg_clauses=8415, cross_offs=249006.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 11 ========================
+
+============================== STATISTICS ============================
+
+For domain size 11.
+
+Current CPU time: 0.00 seconds (total CPU time: 13.88 seconds).
+Ground clauses: seen=6915, kept=5111.
+Selections=25538, assignments=270070, propagations=7006084, current_models=0.
+Rewrite_terms=477227, rewrite_bools=109120471, indexes=197723.
+Rules_from_neg_clauses=1620, cross_offs=400663.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 12 ========================
+
+============================== STATISTICS ============================
+
+For domain size 12.
+
+Current CPU time: 0.00 seconds (total CPU time: 39.02 seconds).
+Ground clauses: seen=8802, kept=6654.
+Selections=86367, assignments=643085, propagations=18299615, current_models=0.
+Rewrite_terms=1007122, rewrite_bools=341827588, indexes=496447.
+Rules_from_neg_clauses=0, cross_offs=771510.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 13 ========================
+
+============================== STATISTICS ============================
+
+For domain size 13.
+
+Current CPU time: 0.00 seconds (total CPU time: 102.59 seconds).
+Ground clauses: seen=11003, kept=8481.
+Selections=307274, assignments=1385141, propagations=42913067, current_models=0.
+Rewrite_terms=1641782, rewrite_bools=885886432, indexes=904933.
+Rules_from_neg_clauses=0, cross_offs=1059938.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 14 ========================
+
+============================== STATISTICS ============================
+
+For domain size 14.
+
+Current CPU time: 0.00 seconds (total CPU time: 216.51 seconds).
+Ground clauses: seen=13542, kept=10616.
+Selections=668082, assignments=2253876, propagations=73207077, current_models=0.
+Rewrite_terms=1953897, rewrite_bools=1642370171, indexes=1137472.
+Rules_from_neg_clauses=0, cross_offs=1116105.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 15 ========================
+
+============================== STATISTICS ============================
+
+For domain size 15.
+
+Current CPU time: 0.00 seconds (total CPU time: 368.61 seconds).
+Ground clauses: seen=16443, kept=13083.
+Selections=933667, assignments=2813401, propagations=93088097, current_models=0.
+Rewrite_terms=2013685, rewrite_bools=2281024535, indexes=1188558.
+Rules_from_neg_clauses=0, cross_offs=1119821.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 16 ========================
+
+============================== STATISTICS ============================
+
+For domain size 16.
+
+Current CPU time: 0.00 seconds (total CPU time: 541.62 seconds).
+Ground clauses: seen=19730, kept=15906.
+Selections=1013723, assignments=2975892, propagations=98896036, current_models=0.
+Rewrite_terms=2018625, rewrite_bools=2664170124, indexes=1193153.
+Rules_from_neg_clauses=0, cross_offs=1119922.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 17 ========================
+
+============================== STATISTICS ============================
+
+For domain size 17.
+
+Current CPU time: 0.00 seconds (total CPU time: 728.37 seconds).
+Ground clauses: seen=23427, kept=19109.
+Selections=1019700, assignments=2987931, propagations=99294285, current_models=0.
+Rewrite_terms=2018798, rewrite_bools=2933306790, indexes=1193322.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 18 ========================
+
+============================== STATISTICS ============================
+
+For domain size 18.
+
+Current CPU time: 0.00 seconds (total CPU time: 941.97 seconds).
+Ground clauses: seen=27558, kept=22716.
+Selections=1019806, assignments=2988144, propagations=99300510, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=3192409529, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 19 ========================
+
+============================== STATISTICS ============================
+
+For domain size 19.
+
+Current CPU time: 0.00 seconds (total CPU time: 1150.78 seconds).
+Ground clauses: seen=32147, kept=26751.
+Selections=1019806, assignments=2988144, propagations=99300513, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=3451319863, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 20 ========================
+
+============================== STATISTICS ============================
+
+For domain size 20.
+
+Current CPU time: 0.00 seconds (total CPU time: 1363.51 seconds).
+Ground clauses: seen=37218, kept=31238.
+Selections=1019806, assignments=2988144, propagations=99300516, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=3710230197, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 21 ========================
+
+============================== STATISTICS ============================
+
+For domain size 21.
+
+Current CPU time: 0.00 seconds (total CPU time: 1593.60 seconds).
+Ground clauses: seen=42795, kept=36201.
+Selections=1019806, assignments=2988144, propagations=99300519, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=3969140531, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 22 ========================
+
+============================== STATISTICS ============================
+
+For domain size 22.
+
+Current CPU time: 0.00 seconds (total CPU time: 1840.44 seconds).
+Ground clauses: seen=48902, kept=41664.
+Selections=1019806, assignments=2988144, propagations=99300522, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=4228050865, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 23 ========================
+
+============================== STATISTICS ============================
+
+For domain size 23.
+
+Current CPU time: 0.00 seconds (total CPU time: 2110.79 seconds).
+Ground clauses: seen=55563, kept=47651.
+Selections=1019806, assignments=2988144, propagations=99300525, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=191993903, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 24 ========================
+
+============================== STATISTICS ============================
+
+For domain size 24.
+
+Current CPU time: 0.00 seconds (total CPU time: 2403.18 seconds).
+Ground clauses: seen=62802, kept=54186.
+Selections=1019806, assignments=2988144, propagations=99300528, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=450904237, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 25 ========================
+
+============================== STATISTICS ============================
+
+For domain size 25.
+
+Current CPU time: 0.00 seconds (total CPU time: 2710.93 seconds).
+Ground clauses: seen=70643, kept=61293.
+Selections=1019806, assignments=2988144, propagations=99300531, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=709814571, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 26 ========================
+
+============================== STATISTICS ============================
+
+For domain size 26.
+
+Current CPU time: 0.00 seconds (total CPU time: 3041.63 seconds).
+Ground clauses: seen=79110, kept=68996.
+Selections=1019806, assignments=2988144, propagations=99300534, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=968724905, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 27 ========================
+
+============================== STATISTICS ============================
+
+For domain size 27.
+
+Current CPU time: 0.00 seconds (total CPU time: 3425.58 seconds).
+Ground clauses: seen=88227, kept=77319.
+Selections=1019806, assignments=2988144, propagations=99300537, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=1227635239, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 28 ========================
+
+============================== STATISTICS ============================
+
+For domain size 28.
+
+Current CPU time: 0.00 seconds (total CPU time: 3853.52 seconds).
+Ground clauses: seen=98018, kept=86286.
+Selections=1019806, assignments=2988144, propagations=99300540, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=1486545573, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 29 ========================
+
+============================== STATISTICS ============================
+
+For domain size 29.
+
+Current CPU time: 0.00 seconds (total CPU time: 4269.31 seconds).
+Ground clauses: seen=108507, kept=95921.
+Selections=1019806, assignments=2988144, propagations=99300543, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=1745455907, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 30 ========================
+
+============================== STATISTICS ============================
+
+For domain size 30.
+
+Current CPU time: 0.00 seconds (total CPU time: 4715.54 seconds).
+Ground clauses: seen=119718, kept=106248.
+Selections=1019806, assignments=2988144, propagations=99300546, current_models=0.
+Rewrite_terms=2018800, rewrite_bools=2004366241, indexes=1193324.
+Rules_from_neg_clauses=0, cross_offs=1119923.
+
+============================== end of statistics =====================
+
+User_CPU=4715.54, System_CPU=14.28, Wall_clock=4729.
+
+Exiting with failure.
+
+Process 23712 exit (exhausted) Wed Jul 15 09:45:00 2015
+The process finished Wed Jul 15 09:45:00 2015

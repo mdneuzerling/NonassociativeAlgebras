@@ -1,0 +1,97 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+assign(max_megs,2000).
+
+formulas(assumptions).
+E1(x,y) | E2(x,y) | A(x,y) | B(x,y).
+A(x,y) -> x != y & -B(x,y).
+B(x,y) -> x != y & -A(x,y).
+E1(x,y) -> x = y & -E2(x,x).
+E2(x,y) -> x = y & -E1(x,x).
+(exists x E1(x,x)).
+(exists x E2(x,x)).
+(exists x exists y A(x,y)).
+(exists x exists y B(x,y)).
+A(x,y) -> A(y,x).
+B(x,y) -> B(y,x).
+(exists x exists y (E1(x,x) & A(x,y))).
+(exists x exists y (E1(x,x) & B(x,y))).
+(exists x exists y (E2(x,x) & A(x,y))).
+B(x,y) -> -E2(x,x).
+A(x,z) & A(z,y) -> -A(x,y).
+B(x,z) & A(z,y) -> -A(x,y).
+A(x,z) & B(z,y) -> -B(x,y).
+B(x,z) & B(z,y) -> -B(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.06) seconds.
+% Length of proof is 54.
+% Level of proof is 12.
+% Maximum clause weight is 12.000.
+% Given clauses 184.
+
+3 E1(x,y) -> x = y & -E2(x,x) # label(non_clause).  [assumption].
+4 E2(x,y) -> x = y & -E1(x,x) # label(non_clause).  [assumption].
+7 (exists x exists y A(x,y)) # label(non_clause).  [assumption].
+9 A(x,y) -> A(y,x) # label(non_clause).  [assumption].
+10 B(x,y) -> B(y,x) # label(non_clause).  [assumption].
+12 (exists x exists y (E1(x,x) & B(x,y))) # label(non_clause).  [assumption].
+13 (exists x exists y (E2(x,x) & A(x,y))) # label(non_clause).  [assumption].
+14 B(x,y) -> -E2(x,x) # label(non_clause).  [assumption].
+15 A(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+16 B(x,z) & A(z,y) -> -A(x,y) # label(non_clause).  [assumption].
+18 B(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+19 E1(x,y) | E2(x,y) | A(x,y) | B(x,y).  [assumption].
+23 -E1(x,y) | y = x.  [clausify(3)].
+24 -E1(x,y) | -E2(x,x).  [clausify(3)].
+25 -E2(x,y) | y = x.  [clausify(4)].
+26 -E2(x,y) | -E1(x,x).  [clausify(4)].
+29 A(c3,c4).  [clausify(7)].
+31 -A(x,y) | A(y,x).  [clausify(9)].
+32 -B(x,y) | B(y,x).  [clausify(10)].
+35 E1(c9,c9).  [clausify(12)].
+36 B(c9,c10).  [clausify(12)].
+37 E2(c11,c11).  [clausify(13)].
+39 -B(x,y) | -E2(x,x).  [clausify(14)].
+40 -A(x,y) | -A(y,z) | -A(x,z).  [clausify(15)].
+41 -B(x,y) | -A(y,z) | -A(x,z).  [clausify(16)].
+43 -B(x,y) | -B(y,z) | -B(x,z).  [clausify(18)].
+44 -A(x,x).  [factor(40,a,b),merge(b)].
+46 -B(x,x).  [factor(43,a,b),merge(b)].
+48 x = y | E1(y,x) | A(y,x) | B(y,x).  [resolve(25,a,19,b)].
+49 -E1(x,x) | E1(x,y) | A(x,y) | B(x,y).  [resolve(26,a,19,b)].
+63 -E2(c9,x).  [ur(26,b,35,a)].
+64 B(c10,c9).  [resolve(36,a,32,a)].
+68 -E1(c11,x).  [resolve(37,a,24,b)].
+72 -B(c11,x).  [resolve(39,b,37,a)].
+74 -B(x,y) | E1(x,x).  [resolve(39,b,19,b),unit_del(c,44),unit_del(d,46)].
+78 -A(c4,x) | -A(c3,x).  [resolve(40,a,29,a)].
+85 -A(c10,x) | -A(c9,x).  [resolve(41,a,36,a)].
+118 x = y | A(y,x) | B(y,x).  [resolve(48,b,23,a),merge(d)].
+129 E1(c10,c10).  [resolve(74,a,64,a)].
+132 -E2(c10,x).  [ur(26,b,129,a)].
+136 E1(c9,x) | A(c9,x) | B(c9,x).  [resolve(49,a,35,a)].
+153 c11 = x | A(c11,x).  [resolve(118,c,72,a),flip(a)].
+164 c11 = x | A(x,c11).  [resolve(153,b,31,a)].
+189 -A(c3,c11) | c11 = c4.  [resolve(78,a,164,b)].
+218 c11 = c4 | c11 = c3.  [resolve(189,a,164,b)].
+233 -A(c9,c11) | c11 = c10.  [resolve(85,a,164,b)].
+251 c11 = c3 | E2(c11,c4).  [para(218(a,1),37(a,2))].
+305 c11 = c10 | c11 = c9.  [resolve(233,a,164,b)].
+345 c11 = c9.  [para(305(a,1),37(a,1)),unit_del(b,132)].
+403 c9 = c3.  [back_rewrite(251),rewrite([345(1),345(4)]),unit_del(b,63)].
+465 -B(c3,x).  [back_rewrite(72),rewrite([345(1),403(1)])].
+468 -E1(c3,x).  [back_rewrite(68),rewrite([345(1),403(1)])].
+487 A(c3,x).  [back_rewrite(136),rewrite([403(1),403(3),403(5)]),unit_del(a,468),unit_del(c,465)].
+488 $F.  [resolve(487,a,44,a)].
+
+============================== end of proof ==========================

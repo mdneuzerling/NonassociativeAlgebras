@@ -1,0 +1,64 @@
+============================== Prover9 =================================
+
+Prover9 (64) version 2009-11A, November 2009.
+
+============================== end of head ==========================
+
+============================== INPUT =================================
+assign(max_megs,2000).
+
+formulas(assumptions).
+E1(x,y) | E2(x,y) | A(x,y) | B(x,y).
+A(x,y) -> x != y & -B(x,y).
+B(x,y) -> x != y & -A(x,y).
+E1(x,y) -> x = y & -E2(x,x).
+E2(x,y) -> x = y & -E1(x,x).
+(exists x E1(x,x)).
+(exists x E2(x,x)).
+(exists x exists y A(x,y)).
+(exists x exists y B(x,y)).
+A(x,y) -> A(y,x).
+B(x,y) -> B(y,x).
+A(x,y) -> -E1(x,x).
+(exists x exists y (E1(x,x) & B(x,y))).
+A(x,y) -> -E2(x,x).
+(exists x exists y (E2(x,x) & B(x,y))).
+(exists x exists y exists z (A(x,z) & A(z,y) & A(x,y))).
+(exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))).
+A(x,z) & B(z,y) -> -B(x,y).
+B(x,z) & B(z,y) -> -B(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.04) seconds.
+% Length of proof is 21.
+% Level of proof is 4.
+% Maximum clause weight is 12.000.
+% Given clauses 55.
+
+1 A(x,y) -> x != y & -B(x,y) # label(non_clause).  [assumption].
+9 A(x,y) -> A(y,x) # label(non_clause).  [assumption].
+11 A(x,y) -> -E1(x,x) # label(non_clause).  [assumption].
+13 A(x,y) -> -E2(x,x) # label(non_clause).  [assumption].
+16 (exists x exists y exists z (B(x,z) & A(z,y) & A(x,y))) # label(non_clause).  [assumption].
+18 B(x,z) & B(z,y) -> -B(x,y) # label(non_clause).  [assumption].
+19 E1(x,y) | E2(x,y) | A(x,y) | B(x,y).  [assumption].
+20 -A(x,y) | y != x.  [clausify(1)].
+31 -A(x,y) | A(y,x).  [clausify(9)].
+33 -A(x,y) | -E1(x,x).  [clausify(11)].
+36 -A(x,y) | -E2(x,x).  [clausify(13)].
+43 A(c16,c15).  [clausify(16)].
+44 A(c14,c15).  [clausify(16)].
+46 -B(x,y) | -B(y,z) | -B(x,z).  [clausify(18)].
+48 -B(x,x).  [factor(46,a,b),merge(b)].
+49 -A(x,x).  [ur(20,b,xx)].
+69 -A(x,y) | E1(x,x).  [resolve(36,b,19,b),unit_del(c,49),unit_del(d,48)].
+92 A(c15,c16).  [resolve(43,a,31,a)].
+97 A(c15,c14).  [resolve(44,a,31,a)].
+167 -E1(c15,c15).  [ur(33,a,92,a)].
+168 $F.  [resolve(69,a,97,a),unit_del(a,167)].
+
+============================== end of proof ==========================
