@@ -6,10 +6,6 @@
 \usepackage{adjustbox}
 \usepackage{tikz}
 \usepackage{tkz-graph}
-\usepackage{mathtools}
-
-\theoremstyle{definition}
-\newtheorem{definition}[subsection]{Definition}
 
 \usetikzlibrary{arrows,shapes,positioning,scopes}
 \usetikzlibrary{decorations.shapes}
@@ -41,129 +37,11 @@
 \DeclareMathOperator{\setid}{\operatorname{id} }
 \newcommand{\uni}{\mathsf{U} }
 
+
+
 \begin{document}
 
-\begin{definition}[\cite{Maddux1982}]
-  A \emph{nonassociative algebra}\footnote{A more accurate term would be \emph{not-necessarily-associative algebra}.}\index{nonassociative algebra} is an algebra $$\A = \langle A;  \comp, \join, \meet, -, \con{}, \id, 0, \top \rangle$$ with type $\langle 2, 2, 2, 1, 1, 0, 0, 0 \rangle$ such that:
-\begin{itemize}
-  \item $\langle A; \join, \meet, -, 0, \top \rangle$ is a Boolean algebra,
-  \item $x = x \comp \id = \id \comp x$ for all $x \in A$. That is, $\id$ is an identity element,
-  \item $(x \comp y) \meet z = 0$ if and only if $(\con{x} \comp z) \meet y = 0$ for all $x,y,z \in A$,
-  \item $(y \comp x) \meet z = 0$ if and only if $(z \comp \con{x}) \meet y = 0$ for all $x,y,z \in A$.
-\end{itemize}
-
-  A nonassociative algebra is a \emph{relation algebra} if, for all $x,y,z \in A$,
-\[
-  x \comp (y \comp z) = (x \comp y) \comp z.
-\]
-\end{definition}
-
-\begin{definition}[\cite{HirschHodkinson2002}]\label{defn:PRA}\index{proper relation algebra}
-  Let $X$ be a set. A \emph{proper relation algebra} with base set $X$ is an algebra $\A$ with nonempty domain $A \subseteq \wp(X \times X)$ and signature $\{ \circ, \cup, \cap, \subseteq, ^{-1}, \backslash, \setid_X, \uni\}$ such that the following hold:
-\begin{itemize}
-  \item $A$ together with the operations in $\{\cup, \cap, \backslash, \emptyset, \uni\}$ form a field of sets. That is, if $R, S \in A$ then $R \cup S, R \cap S, \uni \backslash S \in A$. It follows that $\emptyset, \uni \in A$. Also, $\uni$ is the biggest binary relation in $A$, and so $\uni = \cup A$,
-  \item $\setid_X \coloneqq \{ (x,x) \colon x \in X \} \in A$, the identity relation over $X$,
-  \item $\A$ is closed under taking converses: $R \in A$ implies $R^{-1} \in A$, where $R^{-1} = \{(y,x) \colon (x,y) \in R\}$,\newpage
-  \item $\A$ is closed under composition of binary relations: $R, S \in A$ implies $R \circ S \in A$ where
-\[
-  R \circ S = \{(x,y) \colon (\exists z) (x,z) \in R \text{ and } (z,y) \in S \}.
-\]
-\end{itemize}
-\end{definition}
-
-\begin{definition}\label{defn:representation}\index{representation}\index{representable relation algebra}
-  A relation algebra $\A$ over a domain $A$ is \emph{representable} if there exists a proper relation algebra $\mathcal{B}$ over a set $X$ such that $\A$ is isomorphic to $\mathcal{B}$. The isomorphism $h : A \to \wp(X \times X)$ is called a \emph{representation}.
-\end{definition}
-
-  We can break the representation of composition down into two major components: \emph{composition moves} and \emph{witness moves}\footnote{The language of composition and witness moves is borrowed from~\cite{Hirsch2005}, and will be explored in greater detail in Chapter~\ref{chapter:disjointreps}.}. Whenever we see a situation as in Figure~\ref{fig:compositionmove} in a representation we must see it completed to Figure~\ref{fig:compositionresponse}. This makes sense intuitively, since if we can relate $x$ to $y$ via $a$, and $y$ to $z$ via $b$, then we should be able to relate $x$ to $z$ via $a \comp b$ directly.\index{composition move}\index{witness move}
-
-\begin{figure}[ht]
-\noindent\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}[->, shorten <=1pt,shorten >=1pt,auto,node distance=3cm,thick]
-\tikzstyle{vertex}=[circle, fill=black, draw=black, inner sep = 0.06cm]
-
-\node[vertex, label = below left: $x$] (x) at (0:0cm) {};
-\node[vertex, label = above: $y$] (y) at (60:3cm) {};
-\node[vertex, label = below right: $z$] (z) at (0:3cm) {};
-
-\path[->,font=\normalsize]
-(x) edge node [above left] {$a$} (y)
-(y) edge node [above right] {$b$} (z);
-\end{tikzpicture} 
-\caption{Composition move}\label{fig:compositionmove}
-\end{minipage}\hfill
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}[->, shorten <=1pt,shorten >=1pt,auto,node distance=3cm,thick]
-\tikzstyle{vertex}=[circle, fill=black, draw=black, inner sep = 0.06cm]
-
-\node[vertex, label = below left: $x$] (x) at (0:0cm) {};
-\node[vertex, label = above: $y$] (y) at (60:3cm) {};
-\node[vertex, label = below right: $z$] (z) at (0:3cm) {};
-
-\path[->,font=\normalsize]
-(x) edge node [above left] {$a$} (y)
-(y) edge node [above right] {$b$} (z)
-(x) edge node [below] {$a \comp b$} (z);
-\end{tikzpicture}
-\caption{Composition response}\label{fig:compositionresponse}
-\end{minipage}
-\end{figure}
-
-  If $c \le a \comp b$, then whenever we can relate $x$ to $z$ by $c$ we should also be able to relate them by $a \comp b$ through some third point $y$. This is a \emph{witness move}, shown in Figures~\ref{fig:witnessmove} and \ref{fig:witnessresponse}.
-
-\begin{figure}[ht]
-\noindent\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}[->, shorten <=1pt,shorten >=1pt,auto,node distance=3cm,thick]
-\tikzstyle{vertex}=[circle, fill=black, draw=black, inner sep = 0.06cm]
-\tikzstyle{emptyvertex}=[circle, fill=white, draw=white, inner sep = 0.06cm]
-
-\node[vertex, label = below left: $x$] (x) at (0:0cm) {};
-\node[vertex, label = below right: $z$] (y) at (0:3cm) {};
-\node[emptyvertex] (z) at (90:3cm) {};
-\node at (3cm,1cm) {$c \le a \comp b$};
-
-\path[->,font=\normalsize]
-(x) edge node [below] {$c$} (y);
-\end{tikzpicture}
-\caption{Witness move}\label{fig:witnessmove}
-\end{minipage}\hfill
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}[->, shorten <=1pt,shorten >=1pt,auto,node distance=3cm,thick]
-\tikzstyle{vertex}=[circle, fill=black, draw=black, inner sep = 0.06cm]
-
-\node[vertex, label = below left: $x$] (x) at (0:0cm) {};
-\node[vertex, label = above: $y$] (z) at (60:3cm) {};
-\node[vertex, label = below right: $z$] (y) at (0:3cm) {};
-
-\path[->,font=\normalsize]
-(x) edge node [above left] {$a$} (z)
-(z) edge node [above right] {$b$} (y)
-(x) edge node [below] {$c$} (y);
-\end{tikzpicture}
-\caption{Witness response}\label{fig:witnessresponse}
-\end{minipage}
-\end{figure}
-
-Hirsch, Jackson and Kowalski~\cite{HirschJacksonKowalski2016} introduce a new concept of a \emph{qualitative representation}\index{qualitative representation}. Once again, we demand that there are no inconsistent triangles. Unlike a relation algebra representation, we do not require that every consistent triangle appears wherever it can. We simply demand that every consistent triangle appears at least \emph{once} in the representation. That is, a qualitative representation is between a weak and a relation algebra representation.
-
-  Just as for weak representations\index{weak representation}, nonassociative algebras are the ideal abstract setting for qualitative representations. The main reason to prefer qualitative representations to weak representations is that a weak representation need not be isomorphic to the underlying nonassociative algebra. Indeed, different nonassociative algebras can have the same weak representation, and Hirsch et~al.~give examples. 
-
-As is the case for relation algebras and relation algebra representations, there does not exist a finite set of elementary axioms that characterise qualitative representability of nonassociative algebras.
-
-
-
-  The first clear definition of qualitative representations is given by Hirsch et~al.~\cite{HirschJacksonKowalski2016}. We will define all of these concepts properly, but intuitively, a qualitative representation is stronger than a weak representation but weaker than a relation algebra representation. In a relation algebra representation, every composition must be seen wherever it can be seen; that is, composition must be represented through both composition moves and witness moves. In a weak representation, we require only composition moves. In a qualitative representation, we require composition moves, and that every composition appear at least \emph{once} in the representation. That is, if $c \le a \comp b$, then in a qualitative representation we should see a triangle representing this composition \emph{somewhere}. However, we do not need to witness $a \comp b$ above every $c$.
-
-We survey the qualitative representability of all nonassociative algebras on 4 atoms. For each algebra we provide a possible atom table showing composition. Atoms are represented by $\id$ if atomic, or $e_1, e_2, \dots, e_n$ otherwise. We also note whether or not the algebra is a relation algebra; if so, we give the number used by Maddux~\cite{Maddux2006}, if applicable. If the algebra is qualitatively representable, we give an example of a representation. The representation is on the smallest number of vertices, but it is not necessarily the only representation up to isomorphism with that property.
-
-  If the representation is on too many points to draw in any useful manner, it is represented by a matrix with entries from the atoms of the algebra. To interpret these representations, we interpret the rows and columns of the matrix as vertices of a representation, such that the $uv$-th entry of the matrix is the relation from $u$ to $v$.
-
- 
-
+This is a survey of all nonassociative algebras on four atoms, unique up to isomorphism. For each algebra, an example of composition on atoms is given. Atoms $a$, $b$, $c$ are symmetric (self-converse), while atoms $r$ and $\con{r}$ are converses of each other. The identity, if atomic, is denoted by $\id$. Identify fragments are denoted by $e_1, e_2, \dots$. If an algebra is qualitatively representable, an example of a representation is given as an edge-labelled digraph. If the representation is too large to draw in a sensible manner, a matrix is offered instead. If a nonassociative algebra is also a relation algebra, this is noted, along with the index corresponding to the work of Maddux. This is an iterative piece of work, and background material for nonassociative algebras and qualitative representability is forthcoming.
 
 \section[Two fragment identity and two symmetric]{Atoms: two fragment identity and two symmetric}
 
